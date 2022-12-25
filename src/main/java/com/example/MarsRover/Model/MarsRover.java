@@ -17,7 +17,7 @@ public class MarsRover {
     private Long id;
 
     @JsonProperty("name")
-    private String nome;
+    private String name;
 
     @JsonProperty("landing_date")
     private Date landingDate;

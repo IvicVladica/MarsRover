@@ -1,12 +1,8 @@
 package com.example.MarsRover.Controller;
 
-import com.example.MarsRover.Model.MarsRoverResponse;
+import com.example.MarsRover.Model.MarsPhotoList;
 import com.example.MarsRover.Service.MarsClient;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -22,13 +18,10 @@ public class MarsController {
     }
 
     @GetMapping("/api/")
-    public MarsRoverResponse listData(@RequestParam(required=false) String date,
-                                      @RequestParam(required = false) String camera,
-                                      @RequestParam(required = false) Integer page){
-        MarsRoverResponse roverData = marsClient.Datalist(date, camera, page);
-        return roverData;
+    public void listData(){
+        LocalDate date = LocalDate.now().minusDays(1);
+        marsClient.getPhotoListResponse(date);
     }
-
 }
 
 
