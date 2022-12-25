@@ -11,6 +11,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -27,9 +29,10 @@ public class MarsClient {
         this.marsRoverResponseDB = marsRoverResponseDB;
     }
 
-    public void getPhotoListResponse(LocalDate date1) {
+    public List<MarsRoverResponse> getPhotoListResponse(LocalDate today) {
+        List<MarsRoverResponse> responseList = new ArrayList<>();
         for (int i=1; i<=10; i++) {
-            LocalDate date = date1.minusDays(i);
+            LocalDate date = today.minusDays(i);
             String keyApi = "6kr7Q0gSgBdfcKdlrFNcnEIUmEDwKoVWV2YA8OgL";
             String urlApi = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=" + date + "&api_key=" + keyApi;
 
@@ -40,8 +43,9 @@ public class MarsClient {
                     .bodyToMono(MarsPhotoList.class);
 
             saveMarsRoverResponse(bodyResponseData.block(), date);
+            responseList.add(readMarsRoverResponse(date));
         }
-
+        return responseList;
     }
 
 
@@ -85,5 +89,9 @@ public class MarsClient {
                         marsRoverResponseDB.save(marsRoverResponse);
                         System.out.println("Uspesno snimanje novih podataka");}
                 }
+        }
+
+        public MarsRoverResponse readMarsRoverResponse (LocalDate date) {
+            return marsRoverResponseDB.findByDate(date);
         }
 }

@@ -1,11 +1,12 @@
 package com.example.MarsRover.Controller;
 
-import com.example.MarsRover.Model.MarsPhotoList;
+import com.example.MarsRover.Model.MarsRoverResponse;
 import com.example.MarsRover.Service.MarsClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class MarsController {
@@ -18,9 +19,9 @@ public class MarsController {
     }
 
     @GetMapping("/api/")
-    public void listData(){
+    public List<MarsRoverResponse> listData(){
         LocalDate date = LocalDate.now().minusDays(1);
-        marsClient.getPhotoListResponse(date);
+        return marsClient.getPhotoListResponse(date);
     }
 }
 
