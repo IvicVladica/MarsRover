@@ -20,7 +20,7 @@ public class MarsController {
 
     @GetMapping("/api/")
     public List<MarsRoverResponse> listData(){
-        LocalDate date = LocalDate.now().minusDays(1);
+        LocalDate date = LocalDate.now();
         return marsClient.getPhotoListResponse(date);
     }
 }
